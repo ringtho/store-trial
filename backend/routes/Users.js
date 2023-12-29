@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { 
     getUsers, 
-    createUser,
+    signUp,
     getSingleUser,
     editUser, 
     deleteUser 
@@ -10,7 +10,7 @@ const {
 
 router.route('/') 
     .get(getUsers)
-    .post(createUser)
+    .post(signUp)
 
 router.route('/:id')
     .get(getSingleUser)

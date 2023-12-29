@@ -1,6 +1,7 @@
 const { BadRequestError } = require('../errors')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
+const bycrypt = require('bcryptjs')
 
 
 const getUsers = async (req,res) => {
@@ -8,9 +9,9 @@ const getUsers = async (req,res) => {
   res.status(StatusCodes.OK).json({ users })
 }
 
-const createUser = async (req, res) => {
-  const user = await User.create(req.body)
-  res.status(StatusCodes.OK).json({ msg: 'Create User' })
+const signUp = async (req, res) => {
+  const { _id, name, email } = await User.create(req.body)
+  res.status(StatusCodes.CREATED).json({ user: { _id, name, email }})
 }
 
 const getSingleUser = async (req, res) => {
@@ -28,7 +29,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
     getUsers,
-    createUser,
+    signUp,
     getSingleUser,
     editUser,
     deleteUser

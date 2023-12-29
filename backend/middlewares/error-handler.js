@@ -1,7 +1,6 @@
 const { StatusCodes } = require("http-status-codes")
 
 const errorHandler = async (err, req, res, next) => {
-  console.log(err)
   const customError = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     msg: err.message || 'Something went wrong, Please try again later',
@@ -15,7 +14,7 @@ const errorHandler = async (err, req, res, next) => {
   }
 
   if (err.code === 11000) {
-    customError.msg = `Account with '${err.keyValue.email}' already exists`
+    customError.msg = `User with email '${err.keyValue.email}' already exists`
   }
   return res.status(customError.statusCode).json({ error: customError.msg })
 }
