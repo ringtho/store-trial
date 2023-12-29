@@ -1,22 +1,40 @@
-const { BadRequestError } = require('../errors')
+const { BadRequestError, UnAuthorizedError } = require('../errors')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
-const bycrypt = require('bcryptjs')
-
-
-const getUsers = async (req,res) => {
-  const users = await User.find({ })
-  res.status(StatusCodes.OK).json({ users })
-}
 
 const signUp = async (req, res) => {
   const user = await User.create(req.body)
-  const token = user.createJwt()
+  user.createJwt(res)
   const { _id, name, email, isAdmin } = user
   res.status(StatusCodes.CREATED).json({ 
-    user: { _id, name, email, isAdmin },
-    token
+    user: { _id, name, email, isAdmin }
   })
+}
+
+const login = async (req, res) => {
+  const { email, password } = req.body
+  if (!email || !password ) {
+    throw new BadRequestError('Please provide an email and password')
+  }
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    throw new UnAuthorizedError('Invalid Credentials')
+  }
+  const isPasswordCorrect = await user.checkPassword(password)
+  if (!isPasswordCorrect) {
+    throw new UnAuthorizedError('Invalid Credentials')
+  }
+  user.createJwt(res)
+  const { _id, name, email: user_email, isAdmin } = user
+  res.status(StatusCodes.CREATED).json({
+    user: { _id, name, email: user_email, isAdmin }
+  })
+}
+
+const getUsers = async (req, res) => {
+  const users = await User.find({})
+  res.status(StatusCodes.OK).json({ users })
 }
 
 const getSingleUser = async (req, res) => {
@@ -33,9 +51,10 @@ const deleteUser = async (req, res) => {
 } 
 
 module.exports = {
-    getUsers,
-    signUp,
-    getSingleUser,
-    editUser,
-    deleteUser
+  signUp,
+  login,
+  getUsers,
+  getSingleUser,
+  editUser,
+  deleteUser,
 }

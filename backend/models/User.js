@@ -40,11 +40,23 @@ userSchema.pre('save', async function() {
 })
 
 // Create JWT Token method
-userSchema.methods.createJwt = function () {
-  return jwt.sign(
+userSchema.methods.createJwt = function (res) {
+  const token = jwt.sign(
     { userId: this._id, name: this.name }, 
-    process.env.JWT_SECRET, 
-    { expiresIn: '30d' })
+    process.env.JWT_SECRET, { expiresIn: '30d' }
+  )
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite: 'strict',
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  })
+  return token
+}
+
+// check password on login
+userSchema.methods.checkPassword = async function(password) {
+  return await bcrypt.compare(password, this.password)
 }
 
 const User = mongoose.model('User', userSchema)
