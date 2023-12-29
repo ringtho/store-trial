@@ -2,13 +2,22 @@ const { StatusCodes } = require("http-status-codes")
 
 const errorHandler = async (err, req, res, next) => {
   console.log(err)
-  if(err) {
-    return res.status(err.statusCode).json({ error: err.message })
+  const customError = {
+    statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+    msg: err.message || 'Something went wrong, Please try again later',
   }
 
-  res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: 'Something went wrong, Please try again later' })
+  if (err.name === 'ValidationError') {
+    customError.msg = Object.values(err.errors)
+      .map((item) => item.message)
+      .join(',')
+    customError.statusCode = StatusCodes.BAD_REQUEST
+  }
+
+  if (err.code === 11000) {
+    customError.msg = `Account with '${err.keyValue.email}' already exists`
+  }
+  return res.status(customError.statusCode).json({ error: customError.msg })
 }
 
 module.exports = errorHandler

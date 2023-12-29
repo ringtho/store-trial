@@ -3,11 +3,13 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 
 
-const getUsers = async(req,res) => {
-    res.status(StatusCodes.OK).json({msg: 'Get all Users'})
+const getUsers = async (req,res) => {
+  const users = await User.find({ })
+  res.status(StatusCodes.OK).json({ users })
 }
 
 const createUser = async (req, res) => {
+  const user = await User.create(req.body)
   res.status(StatusCodes.OK).json({ msg: 'Create User' })
 }
 
