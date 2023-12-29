@@ -10,8 +10,13 @@ const getUsers = async (req,res) => {
 }
 
 const signUp = async (req, res) => {
-  const { _id, name, email } = await User.create(req.body)
-  res.status(StatusCodes.CREATED).json({ user: { _id, name, email }})
+  const user = await User.create(req.body)
+  const token = user.createJwt()
+  const { _id, name, email, isAdmin } = user
+  res.status(StatusCodes.CREATED).json({ 
+    user: { _id, name, email, isAdmin },
+    token
+  })
 }
 
 const getSingleUser = async (req, res) => {
