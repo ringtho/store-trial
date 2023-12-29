@@ -32,6 +32,14 @@ const login = async (req, res) => {
   })
 }
 
+const logOut = async(req, res) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0)
+  })
+  res.status(StatusCodes.OK).json({ msg: "Successfully logged out user" })
+}
+
 const getUsers = async (req, res) => {
   const users = await User.find({})
   res.status(StatusCodes.OK).json({ users })
@@ -53,6 +61,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   signUp,
   login,
+  logOut,
   getUsers,
   getSingleUser,
   editUser,
