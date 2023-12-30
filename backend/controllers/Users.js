@@ -43,12 +43,6 @@ const logOut = async(req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Successfully logged out user" })
 }
 
-// Get all users by admin
-const getUsers = async (req, res) => {
-  const users = await User.find({}).select("-password")
-  res.status(StatusCodes.OK).json({ users, count: users.length })
-}
-
 // Get user profile details if currently logged in user
 const getUserProfile = async (req, res) => {
   res.status(StatusCodes.OK).json({ user : req.user })
@@ -73,6 +67,17 @@ const editUserProfile = async (req, res) => {
   res.status(StatusCodes.OK).json({ user })
 }
 
+/**
+ * 
+ * Admin Routes
+ */
+
+// Get all users by admin
+const getUsers = async (req, res) => {
+  const users = await User.find({}).select("-password")
+  res.status(StatusCodes.OK).json({ users, count: users.length })
+}
+
 // Get a user by Id by the Admin
 const getUserById = async (req, res) => {
   const userId = req?.params.id
@@ -81,7 +86,35 @@ const getUserById = async (req, res) => {
     throw new NotFoundError(`No item found with id: ${userId}`)
   }
   res.status(StatusCodes.OK).json({ user })
-} 
+}
+
+// Edit user by id
+const editUserById = async (req, res) => {
+  const userId = req?.params.id
+  const user = await User.findOne({ _id: userId })
+  if (!user) {
+    throw new NotFoundError(`No item found with id: ${userId}`)
+  }
+  const { name, email, isAdmin } = req.body
+  if (!name && !email && !isAdmin) {
+    throw new BadRequestError(
+      'Please provide a field to update the user details'
+    )
+  }
+  let updatedData = {}
+  if (name) updatedData.name = name
+  if (email) updatedData.email = email
+  if (isAdmin) updatedData.isAdmin = isAdmin
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: user._id }, 
+    updatedData, 
+    {
+      new: true,
+     runValidators: true,
+  }).select("name email isAdmin")
+
+  res.status(StatusCodes.OK).json({ user: updatedUser })
+}
 
 // Delete a user by Id by the Admin
 const deleteUserById = async (req, res) => {
@@ -106,4 +139,5 @@ module.exports = {
   editUserProfile,
   getUserById,
   deleteUserById,
+  editUserById
 }
