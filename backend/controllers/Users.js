@@ -1,4 +1,4 @@
-const { BadRequestError, UnAuthorizedError } = require('../errors')
+const { BadRequestError, UnAuthorizedError, NotFoundError } = require('../errors')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 
@@ -43,15 +43,18 @@ const logOut = async(req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Successfully logged out user" })
 }
 
+// Get all users by admin
 const getUsers = async (req, res) => {
   const users = await User.find({}).select("-password")
-  res.status(StatusCodes.OK).json({ users })
+  res.status(StatusCodes.OK).json({ users, count: users.length })
 }
 
+// Get user profile details if currently logged in user
 const getUserProfile = async (req, res) => {
   res.status(StatusCodes.OK).json({ user : req.user })
 }
 
+// Edit currently logged in user details
 const editUserProfile = async (req, res) => {
   let updatedData = {}
   const { name, email, password } = req.body
@@ -70,8 +73,28 @@ const editUserProfile = async (req, res) => {
   res.status(StatusCodes.OK).json({ user })
 }
 
-const deleteUser = async (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: 'Delete User' })
+// Get a user by Id by the Admin
+const getUserById = async (req, res) => {
+  const userId = req?.params.id
+  const user = await User.findOne({ _id: userId }).select("-password")
+  if (!user) {
+    throw new NotFoundError(`No item found with id: ${userId}`)
+  }
+  res.status(StatusCodes.OK).json({ user })
+} 
+
+// Delete a user by Id by the Admin
+const deleteUserById = async (req, res) => {
+  const userId = req?.params.id
+  const user = await User.findOne({ _id: userId })
+  if (!user) {
+    throw new NotFoundError(`No item found with id: ${userId}`)
+  }
+  if (user.isAdmin) {
+    throw new UnAuthorizedError('You cannot delete an admin')
+  }
+  await User.deleteOne({ _id: user._id })
+  res.status(StatusCodes.OK).json({ msg: `successfully deleted user with id: ${userId}` })
 } 
 
 module.exports = {
@@ -81,5 +104,6 @@ module.exports = {
   getUsers,
   getUserProfile,
   editUserProfile,
-  deleteUser,
+  getUserById,
+  deleteUserById,
 }

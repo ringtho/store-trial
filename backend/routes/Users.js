@@ -7,7 +7,8 @@ const {
   getUsers,
   getUserProfile,
   editUserProfile,
-  deleteUser,
+  deleteUserById,
+  getUserById
 } = require('../controllers/Users')
 const { 
   authenticateUser, 
@@ -27,6 +28,8 @@ router.route('/logout')
 router.route('/profile')
     .get(authenticateUser, getUserProfile)
     .put(authenticateUser, editUserProfile)
-    .delete(deleteUser)
 
+router.route('/:id')
+    .delete(authenticateUser, authorizeAdmin, deleteUserById)
+    .get(authenticateUser, authorizeAdmin, getUserById)
 module.exports = router

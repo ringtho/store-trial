@@ -39,6 +39,7 @@ userSchema.pre('save', async function() {
     this.password = await bcrypt.hash(this.password, salt)
 })
 
+// Hashing password while updating user details
 userSchema.pre('findOneAndUpdate', async function (next) {
   if (this._update.password) {
     const salt = await bcrypt.genSalt(10)
