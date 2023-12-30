@@ -42,7 +42,7 @@ userSchema.pre('save', async function() {
 // Create JWT Token method
 userSchema.methods.createJwt = function (res) {
   const token = jwt.sign(
-    { userId: this._id, name: this.name }, 
+    { userId: this._id }, 
     process.env.JWT_SECRET, { expiresIn: '30d' }
   )
   res.cookie('jwt', token, {

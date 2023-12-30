@@ -2,6 +2,7 @@ const { BadRequestError, UnAuthorizedError } = require('../errors')
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 
+// Create new user controller
 const signUp = async (req, res) => {
   const user = await User.create(req.body)
   user.createJwt(res)
@@ -11,6 +12,7 @@ const signUp = async (req, res) => {
   })
 }
 
+// Login user controller
 const login = async (req, res) => {
   const { email, password } = req.body
   if (!email || !password ) {
@@ -32,6 +34,7 @@ const login = async (req, res) => {
   })
 }
 
+// Logout user route
 const logOut = async(req, res) => {
   res.cookie('jwt', '', {
     httpOnly: true,
@@ -41,7 +44,7 @@ const logOut = async(req, res) => {
 }
 
 const getUsers = async (req, res) => {
-  const users = await User.find({})
+  const users = await User.find({}).select("-password")
   res.status(StatusCodes.OK).json({ users })
 }
 

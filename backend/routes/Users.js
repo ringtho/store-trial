@@ -9,9 +9,10 @@ const {
   editUser,
   deleteUser,
 } = require('../controllers/Users')
+const { authenticateUser, authenticateAdmin } = require('../middlewares/authentication')
 
 router.route('/') 
-    .get(getUsers)
+    .get(authenticateUser, authenticateAdmin, getUsers)
     .post(signUp)
 
 router.route('/auth')
