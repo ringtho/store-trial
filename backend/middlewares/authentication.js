@@ -21,7 +21,7 @@ const authenticateUser = async (req, res, next) => {
 }
 
 // check if user is admin
-const authenticateAdmin = (req, res, next) => {
+const authorizeAdmin = (req, res, next) => {
     if (req.user && req.user.isAdmin) {
       next()
     } else {
@@ -30,4 +30,4 @@ const authenticateAdmin = (req, res, next) => {
 }
 
 
-module.exports = { authenticateAdmin, authenticateUser }
+module.exports = { authorizeAdmin, authenticateUser }

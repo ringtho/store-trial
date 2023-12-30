@@ -5,14 +5,17 @@ const {
   login,
   logOut,
   getUsers,
-  getSingleUser,
+  getUserProfile,
   editUser,
   deleteUser,
 } = require('../controllers/Users')
-const { authenticateUser, authenticateAdmin } = require('../middlewares/authentication')
+const { 
+  authenticateUser, 
+  authorizeAdmin 
+} = require('../middlewares/authentication')
 
 router.route('/') 
-    .get(authenticateUser, authenticateAdmin, getUsers)
+    .get(authenticateUser, authorizeAdmin, getUsers)
     .post(signUp)
 
 router.route('/auth')
@@ -21,8 +24,8 @@ router.route('/auth')
 router.route('/logout')
     .post(logOut)
 
-router.route('/:id')
-    .get(getSingleUser)
+router.route('/profile')
+    .get(authenticateUser, getUserProfile)
     .put(editUser)
     .delete(deleteUser)
 

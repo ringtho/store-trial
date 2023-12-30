@@ -48,8 +48,8 @@ const getUsers = async (req, res) => {
   res.status(StatusCodes.OK).json({ users })
 }
 
-const getSingleUser = async (req, res) => {
-  res.status(StatusCodes.OK).json({ msg: 'Get Single User ' })
+const getUserProfile = async (req, res) => {
+  res.status(StatusCodes.OK).json({ user : req.user })
 }
 
 const editUser = async (req, res) => {
@@ -66,7 +66,7 @@ module.exports = {
   login,
   logOut,
   getUsers,
-  getSingleUser,
+  getUserProfile,
   editUser,
   deleteUser,
 }
