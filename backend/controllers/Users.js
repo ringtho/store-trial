@@ -52,9 +52,22 @@ const getUserProfile = async (req, res) => {
   res.status(StatusCodes.OK).json({ user : req.user })
 }
 
-const editUser = async (req, res) => {
-//   res.status(StatusCodes.OK).json({ msg: 'Edit User' })
-    throw new BadRequestError('Please provide a user to edit')
+const editUserProfile = async (req, res) => {
+  let updatedData = {}
+  const { name, email, password } = req.body
+  
+  if (!name && !email && !password) {
+    throw new BadRequestError('Please provide a field to update the user details')
+  }
+  if (name) updatedData.name = name
+  if (email) updatedData.email = email
+  if (password) updatedData.password = password
+  const user = await User.findOneAndUpdate(
+    { _id: req.user._id }, 
+    updatedData, 
+    { new: true, runValidators: true }
+  )
+  res.status(StatusCodes.OK).json({ user })
 }
 
 const deleteUser = async (req, res) => {
@@ -67,6 +80,6 @@ module.exports = {
   logOut,
   getUsers,
   getUserProfile,
-  editUser,
+  editUserProfile,
   deleteUser,
 }

@@ -39,6 +39,14 @@ userSchema.pre('save', async function() {
     this.password = await bcrypt.hash(this.password, salt)
 })
 
+userSchema.pre('findOneAndUpdate', async function (next) {
+  if (this._update.password) {
+    const salt = await bcrypt.genSalt(10)
+    this._update.password = await bcrypt.hash(this._update.password, salt)
+  }
+  next()
+})
+
 // Create JWT Token method
 userSchema.methods.createJwt = function (res) {
   const token = jwt.sign(

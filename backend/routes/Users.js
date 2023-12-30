@@ -6,7 +6,7 @@ const {
   logOut,
   getUsers,
   getUserProfile,
-  editUser,
+  editUserProfile,
   deleteUser,
 } = require('../controllers/Users')
 const { 
@@ -26,7 +26,7 @@ router.route('/logout')
 
 router.route('/profile')
     .get(authenticateUser, getUserProfile)
-    .put(editUser)
+    .put(authenticateUser, editUserProfile)
     .delete(deleteUser)
 
 module.exports = router
