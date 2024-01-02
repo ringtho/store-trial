@@ -8,13 +8,17 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
+  getCategories
 } = require('../controllers/Categories')
 
 
 router.route('/')
     .post(authenticateUser, authorizeAdmin, createCategory)
+    .get(getCategories)
 router.route('/:categoryId')
     .put(authenticateUser, authorizeAdmin, updateCategory)
     .delete(authenticateUser, authorizeAdmin, deleteCategory)
+
+
 
 module.exports = router

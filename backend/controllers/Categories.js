@@ -46,8 +46,14 @@ const deleteCategory = async (req, res) => {
       .json({ msg: `Successfully deleted category with id ${categoryId}` })
 }
 
+const getCategories = async (req, res) => {
+    const categories = await Category.find({ })
+    res.status(StatusCodes.OK).json({ categories })
+}
+
 module.exports = {
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getCategories
 }
