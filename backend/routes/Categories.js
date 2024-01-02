@@ -4,10 +4,12 @@ const {
   authenticateUser,
   authorizeAdmin,
 } = require('../middlewares/authentication')
-const { createCategory } = require('../controllers/Categories')
+const { createCategory, updateCategory } = require('../controllers/Categories')
 
 
 router.route('/')
     .post(authenticateUser, authorizeAdmin, createCategory)
+router.route('/:categoryId')
+    .put(authenticateUser, authorizeAdmin, updateCategory)
 
 module.exports = router
