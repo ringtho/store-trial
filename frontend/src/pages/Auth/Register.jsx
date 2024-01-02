@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom'
+import {Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCredentials } from '../../redux/features/auth/authSlice'
 import {toast} from 'react-toastify'

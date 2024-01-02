@@ -63,8 +63,8 @@ const editUserProfile = async (req, res) => {
     { _id: req.user._id }, 
     updatedData, 
     { new: true, runValidators: true }
-  )
-  res.status(StatusCodes.OK).json({ user })
+  ).select('name email isAdmin')
+  res.status(StatusCodes.OK).json({ user})
 }
 
 /**
