@@ -5,6 +5,7 @@ const connectDB = require('./config/db')
 const express = require('express')
 const path = require('path')
 const usersRouter = require('./routes/Users')
+const categoriesRouter = require('./routes/Categories')
 
 const errorHandler = require('./middlewares/error-handler')
 const routeNotFound = require('./middlewares/not-found')
@@ -17,6 +18,7 @@ app.use(cookieParser())
 
 
 app.use('/api/v1/users', usersRouter)
+app.use('/api/v1/categories', categoriesRouter)
 
 app.use(errorHandler)
 app.use(routeNotFound)

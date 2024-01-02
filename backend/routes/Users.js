@@ -34,4 +34,5 @@ router.route('/:id')
     .delete(authenticateUser, authorizeAdmin, deleteUserById)
     .get(authenticateUser, authorizeAdmin, getUserById)
     .put(authenticateUser, authorizeAdmin, editUserById)
+    
 module.exports = router
