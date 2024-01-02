@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, Link, useLocation } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { setCredentials } from '../../redux/features/auth/authSlice'
 import { useProfileMutation } from '../../redux/api/usersApiSlice'
 import {toast} from 'react-toastify'
