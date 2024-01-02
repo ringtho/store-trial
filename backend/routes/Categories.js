@@ -8,7 +8,8 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
-  getCategories
+  getCategories,
+  getSingleCategory
 } = require('../controllers/Categories')
 
 
@@ -18,6 +19,7 @@ router.route('/')
 router.route('/:categoryId')
     .put(authenticateUser, authorizeAdmin, updateCategory)
     .delete(authenticateUser, authorizeAdmin, deleteCategory)
+    .get(getSingleCategory)
 
 
 

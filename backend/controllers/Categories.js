@@ -51,9 +51,20 @@ const getCategories = async (req, res) => {
     res.status(StatusCodes.OK).json({ categories })
 }
 
+const getSingleCategory = async (req, res) => {
+  const { categoryId } = req.params
+  const category = await Category.findOne({ _id: categoryId })
+  if (!category) {
+    throw new NotFoundError(`No item found with id: ${categoryId}`)
+  }
+  res.status(StatusCodes.OK).json(category)
+}
+
+
 module.exports = {
     createCategory,
     updateCategory,
     deleteCategory,
-    getCategories
+    getCategories,
+    getSingleCategory
 }
