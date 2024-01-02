@@ -34,7 +34,20 @@ const updateCategory = async (req, res) => {
     res.status(StatusCodes.OK).json({ category })
 }
 
+const deleteCategory = async (req, res) => {
+    const { categoryId } = req.params
+    const existingCategoryId = await Category.findOne({ _id: categoryId })
+    if (!existingCategoryId) {
+      throw new NotFoundError(`No item found with id: ${categoryId}`)
+    }
+    await Category.deleteOne({ _id: categoryId })
+    res
+      .status(StatusCodes.OK)
+      .json({ msg: `Successfully deleted category with id ${categoryId}` })
+}
+
 module.exports = {
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 }
