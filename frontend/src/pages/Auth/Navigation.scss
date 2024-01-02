@@ -17,3 +17,21 @@
     display: block;
     opacity: 1;
 }
+
+.nav_link {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        transform: translateX(1.5rem);
+    }
+}
+
+.nav_icon {
+    margin-right: 2rem;
+    margin-top: 3rem;
+}
+
+.nav_item {
+    margin-top: 3rem;
+}
