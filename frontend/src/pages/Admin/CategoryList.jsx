@@ -52,23 +52,40 @@ const CategoryList = () => {
     }
 
     try {
-        const res = await updateCategory({ categoryId: selectedCategory._id, updatedCategory: { name: updateName } }).unwrap()
+        const res = await updateCategory({
+          categoryId: selectedCategory._id,
+          updatedCategory: { name: updateName },
+        }).unwrap()
         if (res.error) {
           toast.error(res.error)
         } else {
-          toast.success(`${res.category.name} is updated`)
+          toast.success(`${res?.category?.name} is updated`)
           setSelectedCategory(null)
           setUpdateName('')
           setModalVisible(false)
         }
     } catch (error) {
         console.error(error)
-        toast.error('Updating category failed, try again')
+        // toast.error('Updating category failed, try again')
     }
   }
 
-  const handleDeleteCategory = () => {
-
+  const handleDeleteCategory = async () => {
+    try {
+        const res = await deleteCategory(selectedCategory._id).unwrap()
+        console.log(res)
+        if (res.error) {
+            toast.error(res.error)
+        } else {
+            toast.success(`${updateName} was successfully deleted`)
+            setSelectedCategory(null)
+            // setUpdateName('')
+            setModalVisible(false)
+        }
+    } catch (error) {
+        console.error(error)
+        toast.error("Category deletion failed, try again")
+    }
   }
 
   return (
