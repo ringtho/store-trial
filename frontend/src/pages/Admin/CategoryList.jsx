@@ -7,6 +7,7 @@ import {
 } from '../../redux/api/categoryApiSlice'
 import { useState } from 'react'
 import CategoryForm from '../../components/CategoryForm'
+import Modal from '../../components/Modal'
 
 const CategoryList = () => {
   const { data } = useFetchAllCategoriesQuery()
@@ -42,6 +43,34 @@ const CategoryList = () => {
     }
   }
 
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault()
+
+    if (!updateName) {
+        toast.error('Category name is required')
+        return
+    }
+
+    try {
+        const res = await updateCategory({ categoryId: selectedCategory._id, updatedCategory: { name: updateName } }).unwrap()
+        if (res.error) {
+          toast.error(res.error)
+        } else {
+          toast.success(`${res.category.name} is updated`)
+          setSelectedCategory(null)
+          setUpdateName('')
+          setModalVisible(false)
+        }
+    } catch (error) {
+        console.error(error)
+        toast.error('Updating category failed, try again')
+    }
+  }
+
+  const handleDeleteCategory = () => {
+
+  }
+
   return (
     <div>
       <div>Manage Catagories</div>
@@ -55,14 +84,27 @@ const CategoryList = () => {
       <div>
         {data?.categories?.map((category) => (
           <div key={category._id}>
-            <button onClick={() => {
+            <button
+              onClick={() => {
                 setModalVisible(true)
                 setSelectedCategory(category)
                 setUpdateName(category.name)
-            }}>{category.name}</button>
+              }}
+            >
+              {category.name}
+            </button>
           </div>
         ))}
       </div>
+      <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
+        <CategoryForm
+          value={updateName}
+          setValue={(value) => setUpdateName(value)}
+          handleSubmit={handleUpdateCategory}
+          buttonText="Update"
+          handleDelete={handleDeleteCategory}
+        />
+      </Modal>
     </div>
   )
 }
