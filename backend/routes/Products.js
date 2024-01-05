@@ -13,7 +13,8 @@ const {
     removeProduct,
     getSingleProduct,
     getAllProducts,
-    addProductReview
+    addProductReview,
+    getTopProducts
 } = require('../controllers/Products')
 const checkId = require('../middlewares/checkId')
 
@@ -25,9 +26,11 @@ router.route('/')
 router.route('/allproducts')
     .get(getAllProducts)
 
+router.route('/top')
+    .get(getTopProducts)
+
 router.route('/:id/reviews')
     .post(authenticateUser, addProductReview)
-    .get()
 
 router.route('/:id')
     .put(authenticateUser, authorizeAdmin, formidable(), updateProduct)

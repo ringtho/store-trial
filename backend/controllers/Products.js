@@ -58,7 +58,6 @@ const removeProduct = async (req, res) => {
 
 const addProductReview = async (req, res) => {
     const { rating, comment } = req.body
-    console.log(typeof rating)
     if (!rating || !comment) {
         throw new BadRequestError('Please provide a rating and comment')
     }
@@ -83,10 +82,16 @@ const addProductReview = async (req, res) => {
 
     product.reviews.push(review)
     product.numReviews = product.reviews.length
-    product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) /product.reviews.length
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length
     await product.save()
     res.status(StatusCodes.OK).json({ msg: "Review Added" })
+}
 
+const getTopProducts = async (req, res) => {
+    const products = await Product.find({}).sort({ rating: -1}).limit(4)
+    res.status(StatusCodes.OK).json(products)
 }
 
 module.exports = {
@@ -96,5 +101,6 @@ module.exports = {
     updateProduct,
     removeProduct,
     getSingleProduct,
-    addProductReview
+    addProductReview,
+    getTopProducts
 }
