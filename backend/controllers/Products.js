@@ -11,7 +11,14 @@ const createProduct = async (req, res) => {
     res.status(StatusCodes.CREATED).json({ product })
 }
 
+const updateProduct = async (req, res) => {
+//   const { name, description, price, category, quantity, brand } = req.fields
+  const product = await Product.findByIdAndUpdate(req.params.id, { ...req.fields }, {new: true})
+  res.status(StatusCodes.OK).json({ product })
+}
+
 module.exports = {
     getAllProducts,
-    createProduct
+    createProduct,
+    updateProduct
 }

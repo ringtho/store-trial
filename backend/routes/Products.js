@@ -8,7 +8,8 @@ const {
 } = require('../middlewares/authentication')
 const { 
     getAllProducts, 
-    createProduct 
+    createProduct, 
+    updateProduct
 } = require('../controllers/Products')
 const checkId = require('../middlewares/checkId')
 
@@ -16,5 +17,8 @@ const checkId = require('../middlewares/checkId')
 router.route('/')
     .get(getAllProducts)
     .post(authenticateUser, authorizeAdmin, formidable(), createProduct)
+
+router.route('/:id')
+    .put(authenticateUser, authorizeAdmin, formidable(), updateProduct)
 
 module.exports = router
