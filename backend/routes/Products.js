@@ -7,18 +7,27 @@ const {
   authorizeAdmin,
 } = require('../middlewares/authentication')
 const { 
-    getAllProducts, 
+    getSixProducts, 
     createProduct, 
     updateProduct,
     removeProduct,
-    getSingleProduct
+    getSingleProduct,
+    getAllProducts,
+    addProductReview
 } = require('../controllers/Products')
 const checkId = require('../middlewares/checkId')
 
 
 router.route('/')
-    .get(getAllProducts)
+    .get(getSixProducts)
     .post(authenticateUser, authorizeAdmin, formidable(), createProduct)
+
+router.route('/allproducts')
+    .get(getAllProducts)
+
+router.route('/:id/reviews')
+    .post(authenticateUser, addProductReview)
+    .get()
 
 router.route('/:id')
     .put(authenticateUser, authorizeAdmin, formidable(), updateProduct)

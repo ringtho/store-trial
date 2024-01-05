@@ -4,16 +4,15 @@ const { Schema } = mongoose
 const reviewSchema = Schema({
     name: {
         type: String,
-        required: [true, 'Please provide a name'],
-        maxlength: 50
+        required: true,
     },
     rating: {
         type: Number,
-        required: [true, 'Please provide a rating']
+        required: true
     },
     comment: {
         type: String,
-        required: [true, 'Please provide a comment']
+        required: true
     },
     user: {
         type: Schema.Types.ObjectId,
