@@ -26,19 +26,19 @@ const reviewSchema = Schema({
 const productSchema = Schema({
     name: { 
         type: String,
-        required: [true, 'Please provide a product name']
+        required: [true, 'Name is required']
     },
     image: {
         type: String,
-        required: [true, 'Please provide the image of the product']
+        required: [true, 'image is required']
     },
     brand: {
         type: String,
-        required: [true, 'Please provide the brand of the product']
+        required: [true, 'Brand is required']
     },
     quantity: {
         type: Number,
-        required: [true, 'Please provide the quantity of the product']
+        required: [true, 'Quantity is required']
     },
     category: {
         type: Schema.Types.ObjectId,
@@ -47,7 +47,7 @@ const productSchema = Schema({
     },
     description: {
         type: String,
-        required: [true, 'Please provide a product description']
+        required: [true, 'Description is required']
     },
     reviews : [reviewSchema],
     rating: {
