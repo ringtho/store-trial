@@ -19,6 +19,7 @@ app.use(cookieParser())
 
 app.use('/api/v1/users', usersRouter)
 app.use('/api/v1/categories', categoriesRouter)
+// app.use('/api/v1/products', productsRouter)
 
 app.use(errorHandler)
 app.use(routeNotFound)
