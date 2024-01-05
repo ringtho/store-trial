@@ -14,7 +14,8 @@ const {
     getSingleProduct,
     getAllProducts,
     addProductReview,
-    getTopProducts
+    getTopProducts,
+    getNewProducts
 } = require('../controllers/Products')
 const checkId = require('../middlewares/checkId')
 
@@ -28,6 +29,9 @@ router.route('/allproducts')
 
 router.route('/top')
     .get(getTopProducts)
+
+router.route('/new')
+    .get(getNewProducts)
 
 router.route('/:id/reviews')
     .post(authenticateUser, addProductReview)

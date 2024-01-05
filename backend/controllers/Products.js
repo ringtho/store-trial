@@ -94,6 +94,11 @@ const getTopProducts = async (req, res) => {
     res.status(StatusCodes.OK).json(products)
 }
 
+const getNewProducts = async (req, res) => {
+    const products = await Product.find({}).sort({ _id: -1 }).limit(5)
+    res.status(StatusCodes.OK).json(products)
+}
+
 module.exports = {
     getSixProducts,
     getAllProducts,
@@ -102,5 +107,6 @@ module.exports = {
     removeProduct,
     getSingleProduct,
     addProductReview,
-    getTopProducts
+    getTopProducts,
+    getNewProducts
 }
