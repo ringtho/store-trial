@@ -9,7 +9,8 @@ const {
 const { 
     getAllProducts, 
     createProduct, 
-    updateProduct
+    updateProduct,
+    removeProduct
 } = require('../controllers/Products')
 const checkId = require('../middlewares/checkId')
 
@@ -20,5 +21,6 @@ router.route('/')
 
 router.route('/:id')
     .put(authenticateUser, authorizeAdmin, formidable(), updateProduct)
+    .delete(authenticateUser, authorizeAdmin, removeProduct)
 
 module.exports = router

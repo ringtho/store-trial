@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes')
 const Product = require('../models/Product')
+const { NotFoundError } = require('../errors')
 
 const getAllProducts = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: 'Get All products'})
@@ -17,8 +18,17 @@ const updateProduct = async (req, res) => {
   res.status(StatusCodes.OK).json({ product })
 }
 
+const removeProduct = async (req, res) => {
+  const product = await Product.findByIdAndDelete(req.params.id)
+  if (!product) {
+    throw new NotFoundError(`No item found with id: ${req.params.id}`)
+  }
+  res.status(StatusCodes.OK).json({ product })
+}
+
 module.exports = {
     getAllProducts,
     createProduct,
-    updateProduct
+    updateProduct,
+    removeProduct
 }
