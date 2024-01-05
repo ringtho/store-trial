@@ -26,7 +26,9 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
     fetchAllCategories: builder.query({
         query: () => ({
             url: `${CATEGORIES_URL}`
-        })
+        }),
+        keepUnusedDataFor: 5,
+        providesTags: ['Category']
     })
   }),
 })
