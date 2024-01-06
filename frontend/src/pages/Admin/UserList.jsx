@@ -7,6 +7,7 @@ import {
   useUpdateUserMutation
 } from '../../redux/api/usersApiSlice'
 import Message from './Message'
+import AdminMenu from './AdminMenu'
 
 const UserList = () => {
   const [userDetails, setUserDetails] = useState({
@@ -63,6 +64,7 @@ const UserList = () => {
 
   return (
     <div>
+      <AdminMenu />
       <div>
         <h1>Users</h1>
         {isLoading ? (

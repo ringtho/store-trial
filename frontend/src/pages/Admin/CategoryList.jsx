@@ -8,6 +8,7 @@ import {
 import { useState } from 'react'
 import CategoryForm from '../../components/CategoryForm'
 import Modal from '../../components/Modal'
+import AdminMenu from './AdminMenu'
 
 const CategoryList = () => {
   const { data } = useFetchAllCategoriesQuery()
@@ -90,6 +91,7 @@ const CategoryList = () => {
 
   return (
     <div>
+      <AdminMenu />
       <div>Manage Catagories</div>
       <CategoryForm
         value={name}

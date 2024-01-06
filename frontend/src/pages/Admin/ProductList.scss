@@ -4,11 +4,26 @@
 }
 
 .img {
-    max-width: 200px;
-    max-height: 200px;
+    width: 160px;
+    height: 160px;
 
     img {
         height: 100%;
         width: 100%;
     }
+}
+
+.admin_menu {
+    border: 1px solid red;
+}
+
+.admin_btn {
+    color: yellow;
+}
+
+
+.btn {
+    padding: 0.25rem;
+    background-color: greenyellow;
+    width: 100px;
 }
