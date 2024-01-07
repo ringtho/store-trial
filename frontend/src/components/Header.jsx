@@ -1,3 +1,4 @@
+import ProductCarousel from "../pages/Products/ProductCarousel"
 import SmallProduct from "../pages/Products/SmallProduct"
 import { useGetTopProductsQuery } from "../redux/api/productApiSlice"
 import './Header.scss'
@@ -22,6 +23,7 @@ const Header = () => {
                 ))}
             </div>
         </div>
+        <ProductCarousel />
     </div>
   )
 }
