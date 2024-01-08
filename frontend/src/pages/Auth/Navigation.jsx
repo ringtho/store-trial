@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLogoutMutation } from '../../redux/api/usersApiSlice'
 import { logout } from '../../redux/features/auth/authSlice'
+import FavoritesCount from '../../components/FavoritesCount'
 
 const Navigation = () => {
 
@@ -45,19 +46,20 @@ const Navigation = () => {
       <div>
         <Link to="/" className="nav_link">
           <AiOutlineHome className="nav_icon" size={26} />
-          <span className="nav_item nav-item-name">HOME</span>
+          <span className="nav_item nav-item-name">Home</span>
         </Link>
         <Link to="/shop" className="nav_link">
           <AiOutlineShopping className="nav_icon" size={26} />
-          <span className="nav_item nav-item-name">SHOP</span>
+          <span className="nav_item nav-item-name">Shop</span>
         </Link>
         <Link to="/cart" className="nav_link">
           <AiOutlineShoppingCart className="nav_icon" size={26} />
-          <span className="nav_item nav-item-name">CART</span>
+          <span className="nav_item nav-item-name">Cart</span>
         </Link>
-        <Link to="/favorite" className="nav_link">
+        <Link to="/favorites" className="nav_link">
           <FaHeart className="nav_icon" size={26} />
-          <span className="nav_item nav-item-name">FAVORITE</span>
+          <span className="nav_item nav-item-name">Favorites</span>
+          <FavoritesCount />
         </Link>
       </div>
 
