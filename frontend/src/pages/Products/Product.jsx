@@ -5,7 +5,6 @@ import HeartIcon from './HeartIcon'
 
 
 const Product = ({ product }) => {
-  console.log(product)
   return (
     <div>
       <div>
