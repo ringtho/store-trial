@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate, Link, useParams } from 'react-router-dom'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { toast } from 'react-toastify'
 import { useGetProductDetailsQuery , useCreateReviewMutation } from '../../redux/api/productApiSlice'
 import Loader from "../../components/Loader"
@@ -11,10 +11,12 @@ import Message from "../Admin/Message"
 import './ProductDetail.scss'
 import Ratings from "./Ratings"
 import ProductsTab from "./ProductsTab"
+import { addToCart } from "../../redux/features/cart/cartSlice"
 
 const ProductDetail = () => {
   const {id: productId } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
@@ -24,7 +26,8 @@ const ProductDetail = () => {
   const [createReview, {isLoading: loadingProductReview}] = useCreateReviewMutation()
 
   const addToCartHandler = () => {
-
+    dispatch(addToCart({...product, qty}))
+    navigate('/cart')
   }
 
   const submitHandler = async (e) => {
