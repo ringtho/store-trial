@@ -70,7 +70,7 @@ const Cart = () => {
                 <div>
                   UGX{' '}
                   {cartItems.reduce(
-                    (acc, item) => acc + (item.price * item.qty),
+                    (acc, item) => acc + item.price * item.qty,
                     0
                   )}
                 </div>

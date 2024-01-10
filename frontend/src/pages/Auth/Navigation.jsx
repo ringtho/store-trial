@@ -15,6 +15,7 @@ const Navigation = () => {
   const [showSideBar, setShowSideBar] = useState(false)
 
   const { userInfo } = useSelector((state) => state.auth)
+  const { cartItems } = useSelector((state) => state.cart)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -55,6 +56,7 @@ const Navigation = () => {
         <Link to="/cart" className="nav_link">
           <AiOutlineShoppingCart className="nav_icon" size={26} />
           <span className="nav_item nav-item-name">Cart</span>
+          {cartItems.length > 0 && (<span>({cartItems.length})</span>)}
         </Link>
         <Link to="/favorites" className="nav_link">
           <FaHeart className="nav_icon" size={26} />
