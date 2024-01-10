@@ -99,6 +99,20 @@ const getNewProducts = async (req, res) => {
     res.status(StatusCodes.OK).json(products)
 }
 
+const filterProducts = async (req,res) => {
+  const { checked, radio} = req.body
+  let args = {}
+  if (checked.length > 0) {
+    args.category = checked
+  }
+  if (radio.length > 0) {
+    args.price = {$gte: radio[0], $lte: radio[1]}
+  }
+
+  const products = await Product.find(args)
+  res.status(StatusCodes.OK).json(products)
+}
+
 module.exports = {
     getSixProducts,
     getAllProducts,
@@ -108,5 +122,6 @@ module.exports = {
     getSingleProduct,
     addProductReview,
     getTopProducts,
-    getNewProducts
+    getNewProducts,
+    filterProducts
 }
