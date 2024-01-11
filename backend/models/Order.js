@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-export const orderSchema = Schema({
+const orderSchema = Schema({
   user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   orderItems: [
     {
