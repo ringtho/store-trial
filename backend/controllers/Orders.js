@@ -65,7 +65,14 @@ const createOrder = async (req, res) => {
     res.status(StatusCodes.CREATED).json(order)
 }
 
+const getUserOrders = async (req, res) => {
+    const userId = req.user._id
+    const orders = await Order.find({ user: userId})
+    res.status(StatusCodes.OK).json(orders)
+}
+
 module.exports = {
     getAllOrders,
-    createOrder
+    createOrder,
+    getUserOrders
 }
