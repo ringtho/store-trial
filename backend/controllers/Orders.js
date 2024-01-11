@@ -71,8 +71,52 @@ const getUserOrders = async (req, res) => {
     res.status(StatusCodes.OK).json(orders)
 }
 
+const countTotalOrders = async (req, res) => {
+    const totalOrders = await Order.countDocuments()
+    res.status(StatusCodes.OK).json({ totalOrders })
+}
+
+const calculateTotalSales = async (req, res) => {
+    const orders = await Order.find({})
+    const totalSales = orders.reduce((acc, order) => {
+        acc + order.price, 0
+    })
+    res.status(StatusCodes.OK).json({ totalSales })
+}
+
+const calculateTotalSalesByDate = async (req, res) => {
+    const salesByDate = await Order.aggregate([
+        {
+            $match: {
+                isPaid: true
+            },
+            $group: {
+                _id: {
+                    $dateToString: { format: '%Y-%m-%d', date: '$paidAt'}
+                },
+                totalSales: { $sum: '$totalPrice'}
+            }
+        }
+
+    ])
+
+    res.json(StatusCodes.OK).json(salesByDate)
+}
+
+const findOrderById = async (req, res) => {
+    const order = await Order.findById(req.params.id).populate('user', 'name email')
+    if (!order) {
+        throw new NotFoundError(`Order with id "${req.params.id}" not found`)
+    }
+    res.status(StatusCodes.OK).json(order)
+}
+
 module.exports = {
     getAllOrders,
     createOrder,
-    getUserOrders
+    getUserOrders,
+    countTotalOrders,
+    calculateTotalSales,
+    calculateTotalSalesByDate,
+    findOrderById 
 }
