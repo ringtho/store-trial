@@ -19,8 +19,9 @@ function calcPrices(orderItems) {
     }
 }
 
-const getAllOrders = (req, res) => {
-    res.status(StatusCodes.OK).json({ msg: 'Orders are coming' })
+const getAllOrders = async (req, res) => {
+    const orders = await Order.find({}).populate('user', 'id name')
+    res.status(StatusCodes.OK).json(orders)
 }
 
 const createOrder = async (req, res) => {
