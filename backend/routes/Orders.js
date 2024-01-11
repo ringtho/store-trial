@@ -7,7 +7,9 @@ const {
   countTotalOrders,
   calculateTotalSales,
   calculateTotalSalesByDate,
-  findOrderById
+  findOrderById,
+  markOrderAsPaid,
+  markOrderAsDelivered
 } = require('../controllers/Orders')
 const {
   authenticateUser,
@@ -32,5 +34,11 @@ router.route('/total-sales-by-date')
 
 router.route('/:id')
   .get(authenticateUser, findOrderById)
+
+router.route('/:id/pay')
+  .put(authenticateUser, markOrderAsPaid)
+
+router.route('/:id/deliver')
+  .put(authenticateUser, authorizeAdmin, markOrderAsDelivered)
 
 module.exports = router

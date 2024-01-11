@@ -111,6 +111,41 @@ const findOrderById = async (req, res) => {
     res.status(StatusCodes.OK).json(order)
 }
 
+const markOrderAsPaid = async (req, res) => {
+    const orderId = req.params.id
+    const order = await Order.findById(orderId)
+    if (!order) {
+        throw new NotFoundError(`Order with id "${orderId}" not found`)
+    }
+
+    order.isPaid = true
+    order.paidAt = Date.now()
+    order.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.payer.email_address
+    }
+
+    const updateOrder = await order.save()
+    res.status(StatusCodes.OK).json(updateOrder)
+}
+
+const markOrderAsDelivered = async (req, res) => {
+    const orderId = req.params.id
+    const order = await Order.findById(orderId)
+
+    if (!order) {
+        throw new NotFoundError(`Order with id "${orderId}" not found`)
+    }
+
+    order.isDelivered = true
+    order.deliveredAt = Data.now()
+
+    const updatedOrder = await order.save()
+    res.status(StatusCodes.OK).json(updatedOrder)
+}
+
 module.exports = {
     getAllOrders,
     createOrder,
@@ -118,5 +153,7 @@ module.exports = {
     countTotalOrders,
     calculateTotalSales,
     calculateTotalSalesByDate,
-    findOrderById 
+    findOrderById,
+    markOrderAsPaid,
+    markOrderAsDelivered
 }
